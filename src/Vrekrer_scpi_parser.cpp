@@ -433,23 +433,28 @@ char* SCPI_Parser::GetMessage(Stream& interface, const char* term_chars) {
 
 ///Prints registered tokens and command hashes to the serial interface
 void SCPI_Parser::PrintDebugInfo() {
-  Serial.println(F("*** DEBUG INFO ***"));
-  Serial.println();
-  Serial.print(F("TOKENS :"));
-  Serial.println(tokens_size_);
+  PrintDebugInfo(Serial);
+}
+
+///Prints registered tokens and command hashes to the given stream
+void SCPI_Parser::PrintDebugInfo(Stream &serial) {
+  serial.println(F("*** DEBUG INFO ***"));
+  serial.println();
+  serial.print(F("TOKENS :"));
+  serial.println(tokens_size_);
   for (uint8_t i = 0; i < tokens_size_; i++) {
-    Serial.print(F("  "));
-    Serial.println(String(tokens_[i]));
-    Serial.flush();
+    serial.print(F("  "));
+    serial.println(String(tokens_[i]));
+    serial.flush();
   }
-  Serial.println();
-  Serial.println(F("VALID CODES :"));
+  serial.println();
+  serial.println(F("VALID CODES :"));
   for (uint8_t i = 0; i < codes_size_; i++) {
-    Serial.print(F("  "));
-    Serial.println(valid_codes_[i]);
-    Serial.flush();
+    serial.print(F("  "));
+    serial.println(valid_codes_[i]);
+    serial.flush();
   }
-  Serial.println();
-  Serial.println(F("*******************"));
-  Serial.println();
+  serial.println();
+  serial.println(F("*******************"));
+  serial.println();
 }
