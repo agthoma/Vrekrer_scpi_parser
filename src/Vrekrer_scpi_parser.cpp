@@ -369,8 +369,8 @@ void SCPI_Parser::Execute(char* message, Stream &interface) {
  @see GetMessage
  @see Execute
 */
-void SCPI_Parser::ProcessInput(Stream& interface, const char* term_chars) {
-  char* message = this->GetMessage(interface, term_chars);
+void SCPI_Parser::ProcessInput(Stream& interface, const char* term_chars, const char* alt_term_chars) {
+  char* message = this->GetMessage(interface, term_chars, alt_term_chars);
   if (message != NULL) {
     this->Execute(message, interface);
   }
@@ -389,7 +389,7 @@ void SCPI_Parser::ProcessInput(Stream& interface, const char* term_chars) {
   A timeout occurs (10 ms without new chars)  
   The message buffer overflows
 */
-char* SCPI_Parser::GetMessage(Stream& interface, const char* term_chars) {
+char* SCPI_Parser::GetMessage(Stream& interface, const char* term_chars, const char* alt_term_chars) {
   while (interface.available()) {
     //Read the new char
     msg_buffer_[message_length_] = interface.read();
@@ -406,7 +406,8 @@ char* SCPI_Parser::GetMessage(Stream& interface, const char* term_chars) {
 
     //Test for termination chars (end of the message)
     msg_buffer_[message_length_] = '\0';
-    if (strstr(msg_buffer_, term_chars) != NULL) {
+    if (strstr(msg_buffer_, term_chars) != NULL ||
+          (alt_term_chars != NULL && strstr(msg_buffer_, alt_term_chars) != NULL) ) {
       //Return the received message
       msg_buffer_[message_length_ - strlen(term_chars)] =  '\0';
       if(msg_buffer_[message_length_- 1 - strlen(term_chars)] == '\r') {

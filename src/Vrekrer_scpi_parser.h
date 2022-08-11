@@ -152,9 +152,9 @@ class SCPI_Parser {
   //Process a message and execute it a valid command is found
   void Execute(char* message, Stream& interface);
   //Gets a message from a Stream interface and execute it
-  void ProcessInput(Stream &interface, const char* term_chars);
+  void ProcessInput(Stream &interface, const char* term_chars, const char* alt_term_chars=NULL);
   //Gets a message from a Stream interface
-  char* GetMessage(Stream& interface, const char* term_chars);
+  char* GetMessage(Stream& interface, const char* term_chars, const char *alt_term_chars);
   //Prints registered tokens and command hashes to the serial interface
   void PrintDebugInfo();
   //Prints registered tokens and command hashes to the given stream
