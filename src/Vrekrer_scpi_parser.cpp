@@ -409,8 +409,8 @@ char* SCPI_Parser::GetMessage(Stream& interface, const char* term_chars) {
     if (strstr(msg_buffer_, term_chars) != NULL) {
       //Return the received message
       msg_buffer_[message_length_ - strlen(term_chars)] =  '\0';
-      if(msg_buffer_[message_length_-1] == '\r') {
-        msg_buffer_[message_length_-1] = '\0';
+      if(msg_buffer_[message_length_- 1 - strlen(term_chars)] == '\r') {
+        msg_buffer_[message_length_ - 1 - strlen(term_chars)] = '\0';
       }
       message_length_ = 0;
       return msg_buffer_;
