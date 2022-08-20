@@ -406,8 +406,14 @@ char* SCPI_Parser::GetMessage(Stream& interface, const char* term_chars, const c
 
     //Test for termination chars (end of the message)
     msg_buffer_[message_length_] = '\0';
-    if (strstr(msg_buffer_, term_chars) != NULL ||
-          (alt_term_chars != NULL && strstr(msg_buffer_, alt_term_chars) != NULL) ) {
+    // If garbage data is coming (e.g. like talking to serial with the wrong bauf rate),
+    // then zeros can show up and then only a buffer overflow can stop getting a message.
+    // So relying on a correct ended string by a zero is not good.
+    // Old code:
+    // if (strstr(msg_buffer_, term_chars) != NULL ||
+    //       (alt_term_chars != NULL && strstr(msg_buffer_, alt_term_chars) != NULL) ) {
+    if (msg_buffer_[message_length_-1] == term_chars[0] ||
+          (alt_term_chars != NULL && msg_buffer_[message_length_-1] == alt_term_chars[0]) ) {
       //Return the received message
       msg_buffer_[message_length_ - strlen(term_chars)] =  '\0';
       if(msg_buffer_[message_length_- 1 - strlen(term_chars)] == '\r') {
