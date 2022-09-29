@@ -22,6 +22,11 @@ Header file.
   #define SCPI_MAX_COMMANDS 20
 #endif
 
+/// Max number of registered commands.
+#ifndef SCPI_TIMEOUT
+  #define SCPI_TIMEOUT 10
+#endif
+
 /// Integer size used for hashes.
 #ifndef SCPI_HASH_TYPE
   #define SCPI_HASH_TYPE uint8_t
@@ -194,7 +199,7 @@ class SCPI_Parser {
   char *msg_buffer_;
 
   //Timeout, in miliseconds, for GetMessage and ProcessInput.
-  unsigned long timeout = 10;
+  unsigned long timeout = SCPI_TIMEOUT;
   //Varible used for checking timeout errors
   unsigned long time_checker_;
 };
