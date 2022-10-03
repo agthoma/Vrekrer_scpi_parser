@@ -392,7 +392,11 @@ void SCPI_Parser::ProcessInput(Stream& interface, const char* term_chars, const 
 char* SCPI_Parser::GetMessage(Stream& interface, const char* term_chars, const char* alt_term_chars) {
   while (interface.available()) {
     //Read the new char
-    msg_buffer_[message_length_] = interface.read();
+    char ch = interface.read();
+    if(ch < 0) {
+      continue;
+    }
+    msg_buffer_[message_length_] = ch;
     ++message_length_;
     time_checker_ = millis();
 
