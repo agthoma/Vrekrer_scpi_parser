@@ -141,6 +141,10 @@ SCPI_Parser::SCPI_Parser(SCPI_Message_Buffer_ABC mesage_buffer){
   callers_[max_commands] = &DefaultErrorHandler;
 }
 
+void SCPI_Parser::SetReadTimeout(unsigned long time) {
+  timeout = time;
+}
+
 ///Add a token to the tokens' storage
 void SCPI_Parser::AddToken_(char *token) {
   size_t token_size = strlen(token);

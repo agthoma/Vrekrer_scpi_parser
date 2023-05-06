@@ -160,6 +160,8 @@ class SCPI_Parser {
   void ProcessInput(Stream &interface, const char* term_chars, const char* alt_term_chars=NULL);
   //Gets a message from a Stream interface
   char* GetMessage(Stream& interface, const char* term_chars, const char *alt_term_chars);
+  // Set waiting timeout on additional characters while reading from serial
+  void SetReadTimeout(unsigned long time);
   //Prints registered tokens and command hashes to the serial interface
   void PrintDebugInfo();
   //Prints registered tokens and command hashes to the given stream
